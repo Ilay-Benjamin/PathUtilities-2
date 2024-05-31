@@ -1,7 +1,6 @@
 import path from 'path';
-
-
 export class Entity {
+    
 
     private directory: Entity|null;
     private dirDetails: {path: string, name: string};

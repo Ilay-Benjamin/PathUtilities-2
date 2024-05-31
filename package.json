@@ -1,10 +1,13 @@
 {
   "dependencies": {
-    "path": "^0.12.7",
+    "@bleed-believer/path-alias": "^1.1.2",
     "ts-node": "^10.9.2"
   },
   "devDependencies": {
-    "@types/typescript": "^2.0.0"
+    "@types/node": "^20.12.13",
+    "@types/typescript": "^2.0.0",
+    "path": "^0.12.7"
   },
+  "start:node": "node --loader ts-node/esm src/index.ts",
   "type": "module"
 }
