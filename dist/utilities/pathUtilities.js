@@ -1,5 +1,5 @@
 import path from 'path';
-class Entity {
+export class Entity {
     static GET_ROOT_PATH() {
         return 'C:/Users/ilayb/Codes/Projects/Subjects/WebSocket/projects';
     }
@@ -53,6 +53,12 @@ class Entity {
     getName() {
         return this.name;
     }
+    getNameWithoutExtension() {
+        if (this.capable) {
+            return this.name;
+        }
+        return this.name.split('.').slice(0, -1).join('.');
+    }
     getDirectoryDetails() {
         return this.dirDetails;
     }
@@ -70,6 +76,26 @@ class Entity {
     }
     setName(name) {
         this.name = name;
+        if (this.directory) {
+            var directory = this.directory;
+            var id = this.id;
+            directory.removeChild(this.getName());
+            directory.addChild(this);
+            this.id = id;
+        }
+        this.reloadDirectory();
+    }
+    reloadDirectory() {
+        if (this.directory) {
+            if (this.directory.name !== this.dirDetails.name || this.directory.getFullPath() !== this.dirDetails.path) {
+                this.setDirectory(this.directory);
+            }
+        }
+        if (this.children) {
+            this.children.forEach((child) => {
+                child.reloadDirectory();
+            });
+        }
     }
     setDirectoryDetails(dirDetails) {
         this.dirDetails = dirDetails;
@@ -223,16 +249,5 @@ class Entity {
     }
 }
 export function main() {
-    var root = new Entity('p8', null, true);
-    var srcDir = new Entity('src', root, true);
-    var distDir = new Entity('dist', root, true);
-    var srcIndexScript = new Entity('index.ts', srcDir, false);
-    var srcUilitiesDir = new Entity('utilities', srcDir, true);
-    var srcPathUtilities = new Entity('pathUtilities.ts', srcUilitiesDir, false);
-    var distIndexScript = new Entity('index.js', distDir, false);
-    var distUilitiesDir = new Entity('Uilities', distDir, true);
-    var distPathUtilities = new Entity('pathUtilities.js', distUilitiesDir, false);
-    var distViewsDir = new Entity('views', distDir, true);
-    var distIndexHtml = new Entity('index.html', distViewsDir, false);
-    console.log(root.toDetailedString());
+    // console.log(root.toDetailedString());
 }
